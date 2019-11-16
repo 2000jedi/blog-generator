@@ -1,16 +1,18 @@
 import os
 
-import file_supervisor, static_server
+import json_parser, file_supervisor, static_server
 
-markdown_directory = 'blog'
-output_directory = 'serv'
+global_settings = json_parser.parse('global.json')
+if (global_settings == None):
+    print("Unable to open `global.json`, halting.")
+    exit(-1)
 
-files = file_supervisor.supervise(directory = markdown_directory)
+files = file_supervisor.supervise(directory = global_settings['BLOG_DIR'])
 
-file_supervisor.clean(output_directory, files)
+file_supervisor.clean(global_settings['OUTPUT_DIR'], files)
 
 for directory in files.keys():
     for f in files[directory]:
-        file_supervisor.generate_pandoc(os.path.join(markdown_directory, directory), f, os.path.join(output_directory, directory))
+        file_supervisor.generate_pandoc(os.path.join(global_settings['BLOG_DIR'], directory), f, os.path.join(global_settings['OUTPUT_DIR'], directory))
 
-static_server.serve(directory=output_directory)
+static_server.serve(directory = global_settings['OUTPUT_DIR'])

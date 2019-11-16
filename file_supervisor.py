@@ -22,7 +22,7 @@ def generate_pandoc(directory, f, output_dir):
     out_real_path  = os.path.realpath(os.path.join(output_dir, f[:-3] + ".html"))
 
     command = "pandoc -s -f markdown -t html %s --metadata pagetitle=\"%s\" -o %s -c '/style/markdown.css'" % (file_real_path, f[:-3], out_real_path)
-    print(command)
+    # print(command)
     os.system(command)
 
 def generate_index(out_dir, dirs):
