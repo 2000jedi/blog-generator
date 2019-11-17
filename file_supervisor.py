@@ -1,4 +1,5 @@
 import os
+import json_parser
 
 def supervise(directory):
     # list all markdown files in the category folders in destinated directory
@@ -18,10 +19,12 @@ def supervise(directory):
     return files
 
 def generate_pandoc(directory, f, output_dir):
+    file_settings  = json_parser.parse(os.path.join(directory, f[:-3] + ".json"))
     file_real_path = os.path.realpath(os.path.join(directory, f))
     out_real_path  = os.path.realpath(os.path.join(output_dir, f[:-3] + ".html"))
 
-    command = "pandoc -s -f markdown -t html %s --metadata pagetitle=\"%s\" -o %s -c '/style/markdown.css'" % (file_real_path, f[:-3], out_real_path)
+    command = "pandoc -s -f markdown -t html %s --metadata pagetitle=\"%s\" -o %s -c '/style/markdown.css'" % \
+        (file_real_path, file_settings["title"], out_real_path)
     # print(command)
     os.system(command)
 

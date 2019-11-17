@@ -1,4 +1,5 @@
 {
     "BLOG_DIR": "blog",
-    "OUTPUT_DIR": "serv"
+    "OUTPUT_DIR": "serv",
+    "STATIC_SERVER": true
 }
